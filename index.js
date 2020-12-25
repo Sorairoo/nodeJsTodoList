@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8000
 const todosRoutes=require('./routes/todos');
 app.use(function (req, res, next) {
   res.removeHeader("X-Powered-By");
