@@ -7,17 +7,33 @@ function getTodos(){
 function getTodoById(id){
     return data.todos.find((todo)=>todo.id==id);
 }
-function addTodos(){
-
+function addTodo(request){
+    const newToDo={
+        "todo":request.todo,
+        "completed": request.completed,
+        "list": request.list
+    };
+    data.todos.unshift(newToDo);
+    return newToDo;
 }
 
-function deleteTodos(id){
+function deleteTodo(id){
+    const IndexToDelete=data.todos.findIndex((todo)=>todo.id==id);
+    if(IndexToDelete>-1){
+        const element=data.todos.splice(IndexToDelete,1);
+        return element;
+    }
+    return 0;
+}
+
+function updateTodo(){
 
 }
 
 module.exports={
     getTodoById,
     getTodos,
-    addTodos,
-    deleteTodos
+    addTodo,
+    deleteTodo,
+    updateTodo
 }

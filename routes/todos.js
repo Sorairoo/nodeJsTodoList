@@ -13,7 +13,7 @@ router.get('/',(req,res)=>{
 });
 
 router.post('/',[middleware],(req,res)=>{
-    res.json(todosController.addTodos());
+    res.json(todosController.addTodo(req.body));
 });
 
 router.get('/:id([0-9]+)',[middleware],(req,res)=>{
@@ -21,7 +21,8 @@ router.get('/:id([0-9]+)',[middleware],(req,res)=>{
 });
 
 router.delete('/:id([0-9]+)',[middleware],(req,res)=>{
-    res.json(todosController.deleteTodos(req.params.id));
+    const ele=todosController.deleteTodo(req.params.id);
+    res.status(ele ? 200 : 404 ).json(ele ? ele : null);
 });
  
 
