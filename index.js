@@ -9,7 +9,9 @@ app.use(function (req, res, next) {
 });
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-
+router.get('/',(req,res)=>{
+  res.send('home');
+});
 app.use('/todos',todosRoutes);
 app.listen(port,()=>{
 
