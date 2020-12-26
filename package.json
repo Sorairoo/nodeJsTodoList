@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clinit": "sequelize-cli init --force",
+
     "start": "node ./index.js",
     "watch": "nodemon ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +18,7 @@
     "handlebars": "^4.7.6",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.6",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0"
   }
 }
