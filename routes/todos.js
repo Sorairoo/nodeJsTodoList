@@ -24,6 +24,11 @@ router.delete('/:id([0-9]+)',[middleware],(req,res)=>{
     const ele=todosController.deleteTodo(req.params.id);
     res.status(ele ? 200 : 404 ).json(ele ? ele : null);
 });
+
+router.patch('/:id([0-9]+)',[middleware],(req,res)=>{
+    res.json(todosController.updateTodo(req.params.id,req.body));
+
+});
  
 
  

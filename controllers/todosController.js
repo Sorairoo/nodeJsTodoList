@@ -26,8 +26,15 @@ function deleteTodo(id){
     return 0;
 }
 
-function updateTodo(){
+function updateTodo(id,newTodo){
+    const idx = data.todos.findIndex(todo => todo.id == id);
 
+    if(idx !== -1){
+
+        data.todos[idx] ={...data.todos[idx], ...newTodo};
+        return  data.todos[idx];
+    }
+    return false;
 }
 
 module.exports={
