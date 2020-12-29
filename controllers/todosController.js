@@ -1,20 +1,32 @@
 const data=require('../data');
+const Todo = require('../models').Todo;
 
-function getTodos(){
-    return data.todos;
+async function getTodos(){
+    return await Todo.findAll({});
 }
 
 function getTodoById(id){
     return data.todos.find((todo)=>todo.id==id);
 }
-function addTodo(request){
-    const newToDo={
-        "todo":request.todo,
-        "completed": request.completed,
-        "list": request.list
-    };
-    data.todos.unshift(newToDo);
-    return newToDo;
+
+async function getTodosByListId(id){
+    return  Todo.findAll({
+        attributes: ['id','name','listId','createdAt'],
+        limit: 20,
+        where:{listId: id}
+    });
+}
+
+async function addTodo(request){
+
+    if(!request.todo || !request.completed || !request.list)
+        return 0;
+    
+    return await Todo.create({
+        name: request.todo,
+        completed: request.completed,
+        listId: request.list
+    });
 }
 
 function deleteTodo(id){
@@ -42,5 +54,6 @@ module.exports={
     getTodos,
     addTodo,
     deleteTodo,
-    updateTodo
+    updateTodo,
+    getTodosByListId
 }

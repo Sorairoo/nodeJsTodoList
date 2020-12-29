@@ -1,31 +1,36 @@
 const data = require('../data');
-
-function getLists() {
-    return data.lists;
+const List= require('../models').List;
+async function getLists() {
+    
+    return await List.findAll({
+    });
 }
-function getListById( id) {
-    return data.lists.find(List => List.id == id);
+async function getListById(id) {
+    //find by primary key
+    return await List.findByPk(id);
 }
-function deleteList( id) {
-    const idx = data.lists.findIndex(List => List.id == id);
-    if(idx > -1){
-        const ele =  data.lists.splice(idx,1);
-        return ele;
-    }
-    return 0;
+async function deleteList( id) {
+    return await List.destroy({
+        where: {
+        id: id
+        }
+    });
 }
-function addList(name){
-    const list = {name, id:data.lists.length + 1}
-    data.lists.unshift(list);
-    return list;
+async function addList(name){
+    
+    return await List.create({
+        name:name,
+        userId: 1
+    });
 }
-function updateList(id, name){
-    const idx = data.lists.findIndex(List => List.id == id);
-    if(idx > -1){
-        data.lists[idx] = {...data.lists[idx],name};
-        return data.lists[idx];
-    }
-    return false;
+async function updateList(id, name){
+    return await List.update({ 
+        name: name 
+    }, {
+        where: {
+          id: id
+        }
+      });
 
 }
 module.exports = {

@@ -21,7 +21,9 @@ module.exports = {
         references:{
           model: 'lists',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+
       },
       createdAt: {
         allowNull: false,
