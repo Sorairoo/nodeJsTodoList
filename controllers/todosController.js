@@ -5,8 +5,8 @@ async function getTodos(){
     return await Todo.findAll({});
 }
 
-function getTodoById(id){
-    return data.todos.find((todo)=>todo.id==id);
+async function getTodoById(id){
+    return await Todo.findByPk(id);
 }
 
 async function getTodosByListId(id){
@@ -29,24 +29,25 @@ async function addTodo(request){
     });
 }
 
-function deleteTodo(id){
-    const IndexToDelete=data.todos.findIndex((todo)=>todo.id==id);
-    if(IndexToDelete>-1){
-        const element=data.todos.splice(IndexToDelete,1);
-        return element;
-    }
-    return 0;
+async function deleteTodo(id){
+    return await Todo.destroy({
+        where: {
+        id: id
+        }
+    });
 }
 
-function updateTodo(id,newTodo){
-    const idx = data.todos.findIndex(todo => todo.id == id);
+async function updateTodo(id,newTodo){
+    return await Todo.update({ 
+        name: newTodo.name,
+        completed:  newTodo.completed,
+        listId:  newTodo.listId
 
-    if(idx !== -1){
-
-        data.todos[idx] ={...data.todos[idx], ...newTodo};
-        return  data.todos[idx];
-    }
-    return false;
+    }, {
+        where: {
+          id: id
+        }
+      });
 }
 
 module.exports={

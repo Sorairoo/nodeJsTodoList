@@ -19,7 +19,8 @@ router.post('/',[middleware],async (req,res)=>{
 });
 
 router.get('/:id([0-9]+)',[middleware],async (req,res)=>{
-    res.json(todosController.getTodoById(req.params.id));
+    const result= await todosController.getTodoById(req.params.id);
+    res.json(result);
 });
 
 router.get('/list/:id([0-9]+)',[middleware], async (req,res)=>{
@@ -28,12 +29,21 @@ router.get('/list/:id([0-9]+)',[middleware], async (req,res)=>{
 });
 
 router.delete('/:id([0-9]+)',[middleware], async(req,res)=>{
-    const ele=todosController.deleteTodo(req.params.id);
-    res.status(ele ? 200 : 404 ).json(ele ? ele : null);
+    const result=await todosController.deleteTodo(req.params.id);
+    res.json(result? {
+        "success":true
+    }:{
+        "success":false
+    });
 });
 
 router.patch('/:id([0-9]+)',[middleware], async (req,res)=>{
-    res.json(todosController.updateTodo(req.params.id,req.body));
+    const result=await todosController.updateTodo(req.params.id,req.body)
+    res.json(result? {
+        "success":true
+    }:{
+        "success":false
+    });
 
 });
  

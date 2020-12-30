@@ -11,6 +11,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.engine('.hbs', ehb({extname:'.hbs'}));
 app.set('view engine','.hbs');
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
+
 app.get('/',(req,res)=>{
   res.render('index');
 });
