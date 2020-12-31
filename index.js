@@ -13,12 +13,14 @@ app.engine('.hbs', ehb({extname:'.hbs'}));
 app.set('view engine','.hbs');
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 
-app.get('/',(req,res)=>{
-  res.render('index');
+
+const todosRoutes  = require('./routes/api/todos');
+const listsRoutes  = require('./routes/api/lists');
+app.use('/api/todos', todosRoutes);
+app.use('/api/lists',listsRoutes );
+app.use('/lists', require('./routes/lists'));
+app.get('/',(req,res) =>{
+    res.render('index');
 });
-const todosRoutes  = require('./routes/todos');
-const listsRoutes  = require('./routes/lists');
-app.use('/todos', todosRoutes);
-app.use('/lists',listsRoutes );
 
 app.listen(port, ()=> console.log(`listening on port ${port}`));

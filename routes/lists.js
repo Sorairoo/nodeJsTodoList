@@ -1,28 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const { updateList, addList,deleteList, getListById, getLists} = require('../controllers/listsController');
-
-
+const list = require('../controllers/listsController');
+const {getTodosByListId} = require('../controllers/todosController');
+const  getValues = models => models.map(rec => rec.toJSON());
 router.get('/', async (req, res)=>{
-    result=await getLists();
-    res.json(result);
-});
-router.get('/:id([0-9]+)', async (req, res)=>{
-    const result = await getListById(req.params.id);
-    res.status(result? 200: 404).json(result? result: null);
-});
+    try{
+        const result =  getValues(await list.getLists());
+        res.render('lists', {lists : result});
+    } catch (e) {
+        res.status(500).send(e.toString());
+    }
 
-router.delete('/:id([0-9]+)', async (req, res)=>{
-    const result = await deleteList(req.params.id)
-    res.json(result);
 });
+router.get('/:list_id([0-9]+)/todos', async (req, res)=>{
+    try{
+        const listId = req.params.list_id;
+        const listObj =  await list.getListById(listId);
+        console.log(list)
+        const result =  getValues(await getTodosByListId(listId));
+        res.render('todos', {todos : result, list_name: listObj.name});
+    } catch (e) {
+        res.status(500).send(e.toString());
+    }
 
-router.post('/', async (req, res)=>{
-    const result = await addList(req.body.name);
-    res.json(result);
-});
-router.patch('/:id([0-9]+)', async (req, res)=>{
-    const result = await updateList(req.params.id, req.body.name);
-    res.status(result ? 200: 404).json(result ? result : ' Record not found');
 });
 module.exports = router;
