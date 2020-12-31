@@ -1,8 +1,22 @@
-const data = require('../data');
 const List= require('../models').List;
+const Todo = require('../models').Todo;
+const  attributes = {
+    include:[
+        [List.sequelize.fn('COUNT',
+            List.sequelize.col('Todos.id')),'total']
+    ],
+
+};
 async function getLists() {
     
-    return await List.findAll({
+    return  List.findAll({
+        attributes,
+        subQuery: false,
+        limit: 20,
+        include:[
+            {model: Todo, attributes:[]}
+        ],
+        group: ['List.id']
     });
 }
 async function getListById(id) {
